@@ -112,9 +112,9 @@
             this.loginStatusLabel.ForeColor = System.Drawing.SystemColors.MenuHighlight;
             this.loginStatusLabel.Location = new System.Drawing.Point(9, 9);
             this.loginStatusLabel.Name = "loginStatusLabel";
-            this.loginStatusLabel.Size = new System.Drawing.Size(133, 13);
+            this.loginStatusLabel.Size = new System.Drawing.Size(215, 13);
             this.loginStatusLabel.TabIndex = 7;
-            this.loginStatusLabel.Text = "Please log in to use EV8R.";
+            this.loginStatusLabel.Text = "Please complete all log in fields to send files.";
             // 
             // openFilesButton
             // 
@@ -144,6 +144,7 @@
             this.sendButton.TabIndex = 0;
             this.sendButton.TabStop = false;
             this.sendButton.Text = "imageButton1";
+            this.sendButton.Click += new System.EventHandler(this.sendButton_Click);
             // 
             // MainWindow
             // 

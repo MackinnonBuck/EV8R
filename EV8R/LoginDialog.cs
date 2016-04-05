@@ -24,6 +24,17 @@ namespace EV8R
         private List<Tuple<string, string, int>> serverList;
 
         /// <summary>
+        /// Returns true if the form has been completed.
+        /// </summary>
+        public bool IsFormComplete
+        {
+            get
+            {
+                return serverComboBox.Text.Length > 0 && emailTextBox.Text.Length > 0 && passwordTextBox.Text.Length > 0;
+            }
+        }
+
+        /// <summary>
         /// Returns the email entered by the user.
         /// </summary>
         public string Email
@@ -50,35 +61,6 @@ namespace EV8R
 
             foreach (Tuple<string, string, int> server in serverList)
                 serverComboBox.Items.Add(server.Item1 + " (" + server.Item2 + ")");
-        }
-
-        /// <summary>
-        /// Closes the dialog when the OK button is clicked.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void okButton_Click(object sender, EventArgs e)
-        {
-            if (serverComboBox.Text.Length == 0 || emailTextBox.Text.Length == 0 || passwordTextBox.Text.Length == 0)
-            {
-                MessageBox.Show(this, "All fields must be completed.", "Invalid submission.");
-            }
-            else
-            {
-                client = new SmtpClient(serverComboBox.Text, (int)portNumericUpDown.Value);
-                DialogResult = DialogResult.OK;
-                Close();
-            }
-        }
-
-        /// <summary>
-        /// Resets all the controls to their default values.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void cancelButton_Click(object sender, EventArgs e)
-        {
-            emailTextBox.Text = passwordTextBox.Text = string.Empty;
         }
 
         /// <summary>

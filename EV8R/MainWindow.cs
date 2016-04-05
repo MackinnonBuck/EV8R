@@ -13,17 +13,10 @@ namespace EV8R
     public partial class MainWindow : Form
     {
         /// <summary>
-        /// The login dialog for connecting to an email server.
-        /// </summary>
-        private LoginDialog loginDialog;
-
-        /// <summary>
         /// Initializes this instance.
         /// </summary>
         public MainWindow()
         {
-            loginDialog = new LoginDialog();
-
             InitializeComponent();
         }
 
@@ -34,10 +27,27 @@ namespace EV8R
         /// <param name="e"></param>
         private void logInLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (loginDialog.ShowDialog() == DialogResult.OK)
-                loginStatusLabel.Text = "Welcome, " + loginDialog.Email + "!";
+            Program.LoginDialog.ShowDialog(this);
+            if (Program.LoginDialog.IsFormComplete)
+                loginStatusLabel.Text = "Welcome, " + Program.LoginDialog.Email + "!";
             else
-                loginStatusLabel.Text = "Please log in to use EV8R.";
+                loginStatusLabel.Text = "Please complete all log in fields to send files.";
+        }
+
+        /// <summary>
+        /// Shows the user the send message form.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void sendButton_Click(object sender, EventArgs e)
+        {
+            if (!Program.LoginDialog.IsFormComplete)
+            {
+                MessageBox.Show(this, "You must complete all log in fields before sending files.", "Please log in.");
+                return;
+            }
+
+            new SendFilesForm().ShowDialog();
         }
     }
 }
