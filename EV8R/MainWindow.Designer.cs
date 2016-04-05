@@ -32,9 +32,9 @@
             this.sendFilesLabel = new System.Windows.Forms.Label();
             this.openFilesLabel = new System.Windows.Forms.Label();
             this.ev8rLogoPictureBox = new System.Windows.Forms.PictureBox();
-            this.logInLinkLabel = new System.Windows.Forms.LinkLabel();
+            this.loginLinkLabel = new System.Windows.Forms.LinkLabel();
             this.aboutLinkLabel = new System.Windows.Forms.LinkLabel();
-            this.loginStatusLabel = new System.Windows.Forms.Label();
+            this.welcomeMessageLabel = new System.Windows.Forms.Label();
             this.openFilesButton = new EV8R.ImageButton();
             this.sendButton = new EV8R.ImageButton();
             ((System.ComponentModel.ISupportInitialize)(this.ev8rLogoPictureBox)).BeginInit();
@@ -77,20 +77,20 @@
             this.ev8rLogoPictureBox.TabIndex = 4;
             this.ev8rLogoPictureBox.TabStop = false;
             // 
-            // logInLinkLabel
+            // loginLinkLabel
             // 
-            this.logInLinkLabel.ActiveLinkColor = System.Drawing.SystemColors.HotTrack;
-            this.logInLinkLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.logInLinkLabel.AutoSize = true;
-            this.logInLinkLabel.LinkColor = System.Drawing.SystemColors.MenuHighlight;
-            this.logInLinkLabel.Location = new System.Drawing.Point(514, 9);
-            this.logInLinkLabel.Name = "logInLinkLabel";
-            this.logInLinkLabel.Size = new System.Drawing.Size(37, 13);
-            this.logInLinkLabel.TabIndex = 5;
-            this.logInLinkLabel.TabStop = true;
-            this.logInLinkLabel.Text = "Log In";
-            this.logInLinkLabel.VisitedLinkColor = System.Drawing.SystemColors.MenuHighlight;
-            this.logInLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.logInLinkLabel_LinkClicked);
+            this.loginLinkLabel.ActiveLinkColor = System.Drawing.SystemColors.HotTrack;
+            this.loginLinkLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.loginLinkLabel.AutoSize = true;
+            this.loginLinkLabel.LinkColor = System.Drawing.SystemColors.MenuHighlight;
+            this.loginLinkLabel.Location = new System.Drawing.Point(497, 9);
+            this.loginLinkLabel.Name = "loginLinkLabel";
+            this.loginLinkLabel.Size = new System.Drawing.Size(54, 13);
+            this.loginLinkLabel.TabIndex = 5;
+            this.loginLinkLabel.TabStop = true;
+            this.loginLinkLabel.Text = "Login Info";
+            this.loginLinkLabel.VisitedLinkColor = System.Drawing.SystemColors.MenuHighlight;
+            this.loginLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.loginLinkLabel_LinkClicked);
             // 
             // aboutLinkLabel
             // 
@@ -106,15 +106,14 @@
             this.aboutLinkLabel.Text = "About";
             this.aboutLinkLabel.VisitedLinkColor = System.Drawing.SystemColors.MenuHighlight;
             // 
-            // loginStatusLabel
+            // welcomeMessageLabel
             // 
-            this.loginStatusLabel.AutoSize = true;
-            this.loginStatusLabel.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            this.loginStatusLabel.Location = new System.Drawing.Point(9, 9);
-            this.loginStatusLabel.Name = "loginStatusLabel";
-            this.loginStatusLabel.Size = new System.Drawing.Size(215, 13);
-            this.loginStatusLabel.TabIndex = 7;
-            this.loginStatusLabel.Text = "Please complete all log in fields to send files.";
+            this.welcomeMessageLabel.AutoSize = true;
+            this.welcomeMessageLabel.ForeColor = System.Drawing.SystemColors.MenuHighlight;
+            this.welcomeMessageLabel.Location = new System.Drawing.Point(12, 9);
+            this.welcomeMessageLabel.Name = "welcomeMessageLabel";
+            this.welcomeMessageLabel.Size = new System.Drawing.Size(0, 13);
+            this.welcomeMessageLabel.TabIndex = 7;
             // 
             // openFilesButton
             // 
@@ -151,9 +150,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(606, 550);
-            this.Controls.Add(this.loginStatusLabel);
+            this.Controls.Add(this.welcomeMessageLabel);
             this.Controls.Add(this.aboutLinkLabel);
-            this.Controls.Add(this.logInLinkLabel);
+            this.Controls.Add(this.loginLinkLabel);
             this.Controls.Add(this.ev8rLogoPictureBox);
             this.Controls.Add(this.openFilesLabel);
             this.Controls.Add(this.sendFilesLabel);
@@ -165,6 +164,7 @@
             this.MaximizeBox = false;
             this.Name = "MainWindow";
             this.Text = "EV8R";
+            this.Activated += new System.EventHandler(this.MainWindow_Activated);
             ((System.ComponentModel.ISupportInitialize)(this.ev8rLogoPictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.openFilesButton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sendButton)).EndInit();
@@ -180,9 +180,9 @@
         private System.Windows.Forms.Label sendFilesLabel;
         private System.Windows.Forms.Label openFilesLabel;
         private System.Windows.Forms.PictureBox ev8rLogoPictureBox;
-        private System.Windows.Forms.LinkLabel logInLinkLabel;
+        private System.Windows.Forms.LinkLabel loginLinkLabel;
         private System.Windows.Forms.LinkLabel aboutLinkLabel;
-        private System.Windows.Forms.Label loginStatusLabel;
+        private System.Windows.Forms.Label welcomeMessageLabel;
     }
 }
 

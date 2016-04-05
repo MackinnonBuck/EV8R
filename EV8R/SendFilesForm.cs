@@ -22,19 +22,20 @@ namespace EV8R
         }
 
         /// <summary>
+        /// Updates the from label with email name if the login form is complete.
+        /// </summary>
+        void UpdateFromLabel()
+        {
+            fromLabel.Text = "From: " + (Program.LoginDialog.IsFormComplete ? Program.LoginDialog.Email : "<incomplete login info>");
+        }
+
+        /// <summary>
         /// Shows the LoginDialog.
         /// </summary>
         private void ShowLoginDialog()
         {
             Program.LoginDialog.ShowDialog(this);
-            if (!Program.LoginDialog.IsFormComplete)
-            {
-                if (MessageBox.Show(this, "Cannot send files without valid login information.\nReenter information?", "Cannot send files.",
-                    MessageBoxButtons.RetryCancel) == DialogResult.Retry)
-                    ShowLoginDialog();
-                else
-                    Close();
-            }
+            UpdateFromLabel();
         }
 
         /// <summary>
@@ -44,7 +45,7 @@ namespace EV8R
         /// <param name="e"></param>
         private void SendFilesForm_Load(object sender, EventArgs e)
         {
-            fromLabel.Text = "From: " + Program.LoginDialog.Email;
+            UpdateFromLabel();
         }
 
         /// <summary>
@@ -52,7 +53,7 @@ namespace EV8R
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void editLoginLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void loginLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             ShowLoginDialog();
         }
@@ -106,7 +107,11 @@ namespace EV8R
         /// <param name="e"></param>
         private void sendButton_Click(object sender, EventArgs e)
         {
-            // TODO
+            if (!Program.LoginDialog.IsFormComplete)
+            {
+                MessageBox.Show(this, "You must complete login info to send files.", "Unable to send.");
+                return;
+            }
         }
     }
 }

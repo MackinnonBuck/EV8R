@@ -158,7 +158,7 @@
             this.MinimizeBox = false;
             this.Name = "LoginDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Log In";
+            this.Text = "Login Info";
             ((System.ComponentModel.ISupportInitialize)(this.portNumericUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
