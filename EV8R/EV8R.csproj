@@ -49,9 +49,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exporter.cs" />
     <Compile Include="ImageButton.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Importer.cs" />
     <Compile Include="LoginDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -72,6 +74,7 @@
     <Compile Include="SendFilesForm.Designer.cs">
       <DependentUpon>SendFilesForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="SubFile.cs" />
     <EmbeddedResource Include="LoginDialog.resx">
       <DependentUpon>LoginDialog.cs</DependentUpon>
     </EmbeddedResource>

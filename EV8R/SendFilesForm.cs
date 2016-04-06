@@ -112,6 +112,19 @@ namespace EV8R
                 MessageBox.Show(this, "You must complete login info to send files.", "Unable to send.");
                 return;
             }
+
+            if (openFileDialog.FileNames.Length == 0 &&
+                MessageBox.Show(this, "You must complete login info to send files.\nContinue anyway?", "Unable to send.",
+                MessageBoxButtons.YesNo) == DialogResult.No)
+                return;
+
+            Exporter exporter = new Exporter((int)fileSizeNumericUpDown.Value);
+            
+            foreach (string fileName in openFileDialog.FileNames)
+                exporter.Load(fileName);
+
+            if (localCopyCheckBox.Checked)
+                exporter.Write(folderBrowserDialog.SelectedPath);
         }
     }
 }

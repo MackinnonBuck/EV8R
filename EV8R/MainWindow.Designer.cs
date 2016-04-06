@@ -35,8 +35,10 @@
             this.loginLinkLabel = new System.Windows.Forms.LinkLabel();
             this.aboutLinkLabel = new System.Windows.Forms.LinkLabel();
             this.welcomeMessageLabel = new System.Windows.Forms.Label();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.openFilesButton = new EV8R.ImageButton();
             this.sendButton = new EV8R.ImageButton();
+            this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             ((System.ComponentModel.ISupportInitialize)(this.ev8rLogoPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.openFilesButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sendButton)).BeginInit();
@@ -115,6 +117,11 @@
             this.welcomeMessageLabel.Size = new System.Drawing.Size(0, 13);
             this.welcomeMessageLabel.TabIndex = 7;
             // 
+            // openFileDialog
+            // 
+            this.openFileDialog.Filter = "EV8R files (*.ev8r)|*.ev8r";
+            this.openFileDialog.Multiselect = true;
+            // 
             // openFilesButton
             // 
             this.openFilesButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -128,6 +135,7 @@
             this.openFilesButton.Size = new System.Drawing.Size(288, 288);
             this.openFilesButton.TabIndex = 1;
             this.openFilesButton.TabStop = false;
+            this.openFilesButton.Click += new System.EventHandler(this.openFilesButton_Click);
             // 
             // sendButton
             // 
@@ -144,6 +152,10 @@
             this.sendButton.TabStop = false;
             this.sendButton.Text = "imageButton1";
             this.sendButton.Click += new System.EventHandler(this.sendButton_Click);
+            // 
+            // folderBrowserDialog
+            // 
+            this.folderBrowserDialog.Description = "Select a folder to which the generated files should be saved.";
             // 
             // MainWindow
             // 
@@ -183,6 +195,8 @@
         private System.Windows.Forms.LinkLabel loginLinkLabel;
         private System.Windows.Forms.LinkLabel aboutLinkLabel;
         private System.Windows.Forms.Label welcomeMessageLabel;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
     }
 }
 

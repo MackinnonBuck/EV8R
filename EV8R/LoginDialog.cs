@@ -14,11 +14,6 @@ namespace EV8R
     public partial class LoginDialog : Form
     {
         /// <summary>
-        /// The SmptClient used for sending mail to the specified server.
-        /// </summary>
-        private SmtpClient client;
-
-        /// <summary>
         /// A list of each registered SMTP server.
         /// </summary>
         private List<Tuple<string, string, int>> serverList;

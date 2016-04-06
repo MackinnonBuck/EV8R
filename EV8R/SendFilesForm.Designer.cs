@@ -223,7 +223,7 @@
             0,
             0});
             this.fileSizeNumericUpDown.Minimum = new decimal(new int[] {
-            10,
+            5,
             0,
             0,
             0});

@@ -49,5 +49,20 @@ namespace EV8R
         {
             new SendFilesForm().ShowDialog();
         }
+
+        /// <summary>
+        /// Opens the openFileDialog for the user to select EV8R files to load.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void openFilesButton_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog.ShowDialog() != DialogResult.OK || folderBrowserDialog.ShowDialog() != DialogResult.OK)
+                return;
+
+            Importer importer = new Importer();
+            importer.Load(openFileDialog.FileNames);
+            importer.Write(folderBrowserDialog.SelectedPath);
+        }
     }
 }
