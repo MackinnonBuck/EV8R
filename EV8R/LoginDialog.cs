@@ -30,6 +30,28 @@ namespace EV8R
         }
 
         /// <summary>
+        /// Used for getting the server name entered.
+        /// </summary>
+        public string Server
+        {
+            get
+            {
+                return serverList[serverComboBox.SelectedIndex].Item2;
+            }
+        }
+
+        /// <summary>
+        /// Used for getting the server port entered.
+        /// </summary>
+        public int Port
+        {
+            get
+            {
+                return (int)portNumericUpDown.Value;
+            }
+        }
+
+        /// <summary>
         /// Returns the email entered by the user.
         /// </summary>
         public string Email
@@ -37,6 +59,17 @@ namespace EV8R
             get
             {
                 return emailTextBox.Text;
+            }
+        }
+
+        /// <summary>
+        /// Returns the password entered by the user.
+        /// </summary>
+        public string Password
+        {
+            get
+            {
+                return passwordTextBox.Text;
             }
         }
 

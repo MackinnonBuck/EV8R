@@ -36,9 +36,9 @@
             this.aboutLinkLabel = new System.Windows.Forms.LinkLabel();
             this.welcomeMessageLabel = new System.Windows.Forms.Label();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.openFilesButton = new EV8R.ImageButton();
             this.sendButton = new EV8R.ImageButton();
-            this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             ((System.ComponentModel.ISupportInitialize)(this.ev8rLogoPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.openFilesButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sendButton)).BeginInit();
@@ -122,6 +122,10 @@
             this.openFileDialog.Filter = "EV8R files (*.ev8r)|*.ev8r";
             this.openFileDialog.Multiselect = true;
             // 
+            // folderBrowserDialog
+            // 
+            this.folderBrowserDialog.Description = "Select a folder to which the generated files should be saved.";
+            // 
             // openFilesButton
             // 
             this.openFilesButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -153,10 +157,6 @@
             this.sendButton.Text = "imageButton1";
             this.sendButton.Click += new System.EventHandler(this.sendButton_Click);
             // 
-            // folderBrowserDialog
-            // 
-            this.folderBrowserDialog.Description = "Select a folder to which the generated files should be saved.";
-            // 
             // MainWindow
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -175,6 +175,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "MainWindow";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "EV8R";
             this.Activated += new System.EventHandler(this.MainWindow_Activated);
             ((System.ComponentModel.ISupportInitialize)(this.ev8rLogoPictureBox)).EndInit();

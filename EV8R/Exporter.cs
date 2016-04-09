@@ -10,12 +10,7 @@ namespace EV8R
     class Exporter
     {
         /// <summary>
-        /// Stores each subfile generated.
-        /// </summary>
-        private List<SubFile> subFiles;
-
-        /// <summary>
-        /// Number of bits in a megabyte.
+        /// Number of bytes in a megabyte.
         /// </summary>
         private const int BYTES_IN_MB = 1048576;
 
@@ -23,6 +18,11 @@ namespace EV8R
         /// The output file size limit in bytes.
         /// </summary>
         private int byteLimit;
+
+        /// <summary>
+        /// Stores each subfile generated.
+        /// </summary>
+        public List<SubFile> SubFiles { get; private set; }
 
         /// <summary>
         /// The output file size limit in megabytes.
@@ -47,7 +47,7 @@ namespace EV8R
         public Exporter(int sizeLimitInMegabytes)
         {
             SizeLimit = sizeLimitInMegabytes;
-            subFiles = new List<SubFile>();
+            SubFiles = new List<SubFile>();
         }
 
         /// <summary>
@@ -64,10 +64,10 @@ namespace EV8R
             {
                 SubFile subFile = new SubFile(guid, fileName, subFileID, byteLimit);
                 subFile.LoadFromBase(reader);
-                subFiles.Add(subFile);
+                SubFiles.Add(subFile);
             }
 
-            subFiles.Last().IsLast = true;
+            SubFiles.Last().IsLast = true;
 
             reader.Close();
         }
@@ -78,7 +78,7 @@ namespace EV8R
         /// <param name="folderPath"></param>
         public void Write(string folderPath)
         {
-            foreach (SubFile file in subFiles)
+            foreach (SubFile file in SubFiles)
                 file.Write(folderPath);
         }
 
@@ -87,7 +87,7 @@ namespace EV8R
         /// </summary>
         public void Clear()
         {
-            subFiles.Clear();
+            SubFiles.Clear();
         }
     }
 }

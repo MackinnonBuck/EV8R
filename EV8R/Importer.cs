@@ -46,18 +46,18 @@ namespace EV8R
         /// Uses generated subfile data to reform the original files and write them to the given folder path.
         /// </summary>
         /// <param name="folderPath"></param>
-        public void Write(string folderPath)
+        public bool Write(string folderPath)
         {
+            bool hasSucceeded = true;
+
             foreach (var subFileData in subFiles)
             {
                 bool hasReachedLast = false;
                 List<byte> buffer = new List<byte>();
 
-                SubFile subFile = null;
-
                 for (int i = 0; subFileData.Value.ContainsKey(i); i++)
                 {
-                    subFile = subFileData.Value[i];
+                    SubFile subFile = subFileData.Value[i];
 
                     if (subFile.IsLast)
                         hasReachedLast = true;
@@ -66,11 +66,13 @@ namespace EV8R
                 }
 
                 if (!hasReachedLast)
-                    return;
+                {
+                    hasSucceeded = false;
+                    continue;
+                }
 
-                string fileName = subFile.FileName.Remove(subFile.FileName.LastIndexOf('.'));
-                int lastUnderscore = subFile.FileName.LastIndexOf('_');
-                fileName = fileName.Remove(lastUnderscore, fileName.IndexOf('.', lastUnderscore) - lastUnderscore);
+                string fileName = subFileData.Value[0].FileName;
+                fileName = fileName.Remove(fileName.LastIndexOf('.'));
 
                 BinaryWriter writer = new BinaryWriter(File.Open(folderPath + '\\' + fileName, FileMode.Create));
 
@@ -79,6 +81,8 @@ namespace EV8R
 
                 writer.Close();
             }
+
+            return hasSucceeded;
         }
     }
 }

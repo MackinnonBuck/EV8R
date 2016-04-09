@@ -62,7 +62,12 @@ namespace EV8R
 
             Importer importer = new Importer();
             importer.Load(openFileDialog.FileNames);
-            importer.Write(folderBrowserDialog.SelectedPath);
+
+            if (importer.Write(folderBrowserDialog.SelectedPath))
+                MessageBox.Show(this, "Files saved successfully!", "Success!");
+            else
+                MessageBox.Show(this, "Some EV8R files were missing their counterparts.\nCertain files may not have been restored.",
+                    "Could not save all files.");
         }
     }
 }

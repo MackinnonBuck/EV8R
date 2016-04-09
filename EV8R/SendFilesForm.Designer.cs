@@ -48,6 +48,10 @@
             this.fileSizeNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.filePropertiesGroupBox = new System.Windows.Forms.GroupBox();
             this.messageGroupBox = new System.Windows.Forms.GroupBox();
+            this.sendProgressBar = new System.Windows.Forms.ProgressBar();
+            this.sendStatusLabel = new System.Windows.Forms.Label();
+            this.sendingBackgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.customMessageCheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.fileSizeNumericUpDown)).BeginInit();
             this.filePropertiesGroupBox.SuspendLayout();
             this.messageGroupBox.SuspendLayout();
@@ -101,7 +105,7 @@
             // 
             this.subjectLabel.AutoSize = true;
             this.subjectLabel.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            this.subjectLabel.Location = new System.Drawing.Point(6, 64);
+            this.subjectLabel.Location = new System.Drawing.Point(6, 87);
             this.subjectLabel.Name = "subjectLabel";
             this.subjectLabel.Size = new System.Drawing.Size(46, 13);
             this.subjectLabel.TabIndex = 4;
@@ -111,7 +115,8 @@
             // 
             this.subjectTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.subjectTextBox.Location = new System.Drawing.Point(58, 61);
+            this.subjectTextBox.Enabled = false;
+            this.subjectTextBox.Location = new System.Drawing.Point(58, 84);
             this.subjectTextBox.Name = "subjectTextBox";
             this.subjectTextBox.Size = new System.Drawing.Size(280, 20);
             this.subjectTextBox.TabIndex = 5;
@@ -120,7 +125,7 @@
             // 
             this.messageLabel.AutoSize = true;
             this.messageLabel.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            this.messageLabel.Location = new System.Drawing.Point(6, 84);
+            this.messageLabel.Location = new System.Drawing.Point(6, 107);
             this.messageLabel.Name = "messageLabel";
             this.messageLabel.Size = new System.Drawing.Size(53, 13);
             this.messageLabel.TabIndex = 6;
@@ -131,9 +136,10 @@
             this.messageTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.messageTextBox.Location = new System.Drawing.Point(6, 100);
+            this.messageTextBox.Enabled = false;
+            this.messageTextBox.Location = new System.Drawing.Point(6, 123);
             this.messageTextBox.Name = "messageTextBox";
-            this.messageTextBox.Size = new System.Drawing.Size(332, 82);
+            this.messageTextBox.Size = new System.Drawing.Size(332, 174);
             this.messageTextBox.TabIndex = 7;
             this.messageTextBox.Text = "";
             // 
@@ -194,7 +200,7 @@
             // sendButton
             // 
             this.sendButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.sendButton.Location = new System.Drawing.Point(280, 310);
+            this.sendButton.Location = new System.Drawing.Point(281, 438);
             this.sendButton.Name = "sendButton";
             this.sendButton.Size = new System.Drawing.Size(75, 23);
             this.sendButton.TabIndex = 12;
@@ -259,6 +265,7 @@
             this.messageGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.messageGroupBox.Controls.Add(this.customMessageCheckBox);
             this.messageGroupBox.Controls.Add(this.fromLabel);
             this.messageGroupBox.Controls.Add(this.loginLinkLabel);
             this.messageGroupBox.Controls.Add(this.toTextBox);
@@ -270,21 +277,64 @@
             this.messageGroupBox.ForeColor = System.Drawing.SystemColors.MenuHighlight;
             this.messageGroupBox.Location = new System.Drawing.Point(12, 116);
             this.messageGroupBox.Name = "messageGroupBox";
-            this.messageGroupBox.Size = new System.Drawing.Size(344, 188);
+            this.messageGroupBox.Size = new System.Drawing.Size(344, 303);
             this.messageGroupBox.TabIndex = 16;
             this.messageGroupBox.TabStop = false;
             this.messageGroupBox.Text = "Message";
+            // 
+            // sendProgressBar
+            // 
+            this.sendProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.sendProgressBar.Location = new System.Drawing.Point(12, 438);
+            this.sendProgressBar.MarqueeAnimationSpeed = 25;
+            this.sendProgressBar.Name = "sendProgressBar";
+            this.sendProgressBar.Size = new System.Drawing.Size(263, 23);
+            this.sendProgressBar.TabIndex = 17;
+            this.sendProgressBar.Visible = false;
+            // 
+            // sendStatusLabel
+            // 
+            this.sendStatusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.sendStatusLabel.AutoSize = true;
+            this.sendStatusLabel.ForeColor = System.Drawing.SystemColors.MenuHighlight;
+            this.sendStatusLabel.Location = new System.Drawing.Point(12, 422);
+            this.sendStatusLabel.Name = "sendStatusLabel";
+            this.sendStatusLabel.Size = new System.Drawing.Size(55, 13);
+            this.sendStatusLabel.TabIndex = 8;
+            this.sendStatusLabel.Text = "Sending...";
+            this.sendStatusLabel.Visible = false;
+            // 
+            // sendingBackgroundWorker
+            // 
+            this.sendingBackgroundWorker.WorkerReportsProgress = true;
+            this.sendingBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.sendingBackgroundWorker_DoWork);
+            this.sendingBackgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.sendingBackgroundWorker_ProgressChanged);
+            this.sendingBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.sendingBackgroundWorker_RunWorkerCompleted);
+            // 
+            // customMessageCheckBox
+            // 
+            this.customMessageCheckBox.AutoSize = true;
+            this.customMessageCheckBox.Location = new System.Drawing.Point(6, 61);
+            this.customMessageCheckBox.Name = "customMessageCheckBox";
+            this.customMessageCheckBox.Size = new System.Drawing.Size(133, 17);
+            this.customMessageCheckBox.TabIndex = 8;
+            this.customMessageCheckBox.Text = "Send custom message";
+            this.customMessageCheckBox.UseVisualStyleBackColor = true;
+            this.customMessageCheckBox.CheckedChanged += new System.EventHandler(this.customMessageCheckBox_CheckedChanged);
             // 
             // SendFilesForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(368, 345);
+            this.ClientSize = new System.Drawing.Size(368, 473);
+            this.Controls.Add(this.sendStatusLabel);
+            this.Controls.Add(this.sendProgressBar);
             this.Controls.Add(this.messageGroupBox);
             this.Controls.Add(this.filePropertiesGroupBox);
             this.Controls.Add(this.sendButton);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(384, 384);
+            this.MinimumSize = new System.Drawing.Size(384, 512);
             this.Name = "SendFilesForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Send Files";
@@ -295,6 +345,7 @@
             this.messageGroupBox.ResumeLayout(false);
             this.messageGroupBox.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -319,5 +370,9 @@
         private System.Windows.Forms.NumericUpDown fileSizeNumericUpDown;
         private System.Windows.Forms.GroupBox filePropertiesGroupBox;
         private System.Windows.Forms.GroupBox messageGroupBox;
+        private System.Windows.Forms.ProgressBar sendProgressBar;
+        private System.Windows.Forms.Label sendStatusLabel;
+        private System.ComponentModel.BackgroundWorker sendingBackgroundWorker;
+        private System.Windows.Forms.CheckBox customMessageCheckBox;
     }
 }

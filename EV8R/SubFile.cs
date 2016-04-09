@@ -23,7 +23,7 @@ namespace EV8R
         public Guid GUID { get; private set; }
 
         /// <summary>
-        /// The file name to which the file is written.
+        /// The name of the subfile.
         /// </summary>
         public string FileName { get; private set; }
 
@@ -78,7 +78,7 @@ namespace EV8R
             GUID = guid;
             SubFileIndex = subFileIndex;
             string visibleName = new FileInfo(fileName).Name;
-            FileName = visibleName.Insert(visibleName.LastIndexOf('.'), "_" + SubFileIndex) + ".ev8r";
+            FileName = (subFileIndex == 0 ? visibleName : visibleName.Insert(visibleName.LastIndexOf('.'), "_" + SubFileIndex)) + ".ev8r";
             IsLast = false;
             Buffer = new byte[maxBufferSize - CDataSize];
         }
@@ -132,7 +132,7 @@ namespace EV8R
             if (Buffer == null)
                 return;
 
-            BinaryWriter writer = new BinaryWriter(File.Open(folderPath + '\\' + FileName, FileMode.Create));
+            BinaryWriter writer = new BinaryWriter(File.Open(folderPath + FileName, FileMode.Create));
 
             // Writes the GUID data.
             writer.Write(GUID.ToByteArray());

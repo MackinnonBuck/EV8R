@@ -5,6 +5,8 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -13,6 +15,17 @@ namespace EV8R
 {
     public partial class SendFilesForm : Form
     {
+        /// <summary>
+        /// Used for determining if the message can be sent.
+        /// </summary>
+        private bool IsMessageValid
+        {
+            get
+            {
+                return toTextBox.TextLength != 0;
+            }
+        }
+
         /// <summary>
         /// Initializes this instance.
         /// </summary>
@@ -36,6 +49,18 @@ namespace EV8R
         {
             Program.LoginDialog.ShowDialog(this);
             UpdateFromLabel();
+        }
+
+        /// <summary>
+        /// Used for updating the status label asynchronously.
+        /// </summary>
+        /// <param name="text"></param>
+        private void UpdateStatusLabel(string text)
+        {
+            Invoke(new Action(() =>
+            {
+                sendStatusLabel.Text = text;
+            }));
         }
 
         /// <summary>
@@ -101,6 +126,16 @@ namespace EV8R
         }
 
         /// <summary>
+        /// Enables or disables the custom message fields.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void customMessageCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            subjectTextBox.Enabled = messageTextBox.Enabled = customMessageCheckBox.Checked;
+        }
+
+        /// <summary>
         /// Creates the files and sends the email.
         /// </summary>
         /// <param name="sender"></param>
@@ -113,18 +148,121 @@ namespace EV8R
                 return;
             }
 
-            if (openFileDialog.FileNames.Length == 0 &&
-                MessageBox.Show(this, "You must complete login info to send files.\nContinue anyway?", "Unable to send.",
-                MessageBoxButtons.YesNo) == DialogResult.No)
+            if (!IsMessageValid)
+            {
+                MessageBox.Show(this, "You must specify the email delivery address.", "Unable to send.");
                 return;
+            }
+
+            if (openFileDialog.FileNames.Length == 0)
+            {
+                MessageBox.Show(this, "You have not attached any files to send.", "Unable to send.");
+                return;
+            }
+
+            sendButton.Enabled = false;
+            sendProgressBar.Visible = true;
+            sendStatusLabel.Visible = true;
+
+            MailMessage message = null;
+
+            if (customMessageCheckBox.Checked)
+            {
+                message = new MailMessage(Program.LoginDialog.Email, toTextBox.Text);
+                message.Subject = subjectTextBox.Text;
+                message.Body = messageTextBox.Text;
+            }
+
+            sendingBackgroundWorker.RunWorkerAsync(message);
+        }
+
+        /// <summary>
+        /// Exports the files and then sends the message.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void sendingBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            sendingBackgroundWorker.ReportProgress(-1, "Exporting files...");
 
             Exporter exporter = new Exporter((int)fileSizeNumericUpDown.Value);
-            
+
             foreach (string fileName in openFileDialog.FileNames)
                 exporter.Load(fileName);
 
-            if (localCopyCheckBox.Checked)
-                exporter.Write(folderBrowserDialog.SelectedPath);
+            string outputPath = localCopyCheckBox.Checked ? folderBrowserDialog.SelectedPath + '\\' : Path.GetTempPath();
+            exporter.Write(outputPath);
+
+            SmtpClient client = new SmtpClient(Program.LoginDialog.Server, Program.LoginDialog.Port);
+            client.Credentials = new NetworkCredential(Program.LoginDialog.Email, Program.LoginDialog.Password);
+            client.EnableSsl = true;
+
+            try
+            {
+                if (e.Argument != null)
+                {
+                    sendingBackgroundWorker.ReportProgress(-1, "Sending message...");
+                    client.Send((MailMessage)e.Argument);
+                }
+
+                for (int i = 0; i < exporter.SubFiles.Count; i++)
+                {
+                    sendingBackgroundWorker.ReportProgress((int)((i + 1) / (float)exporter.SubFiles.Count * 100.0f),
+                        "Sending files " + (i + 1) + " of " + exporter.SubFiles.Count);
+
+                    using (MailMessage message = new MailMessage(Program.LoginDialog.Email, toTextBox.Text))
+                    {
+                        message.Subject = "EV8R (Pt. " + (i + 1) + '/' + exporter.SubFiles.Count + ')';
+                        message.Attachments.Add(new Attachment(outputPath + exporter.SubFiles[i].FileName));
+
+                        client.Send(message);
+                    }
+                }
+
+                e.Result = "Files sent successfully!";
+            }
+            catch (SmtpException ex)
+            {
+                e.Result = ex.Message;
+            }
+            finally
+            {
+                client.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Updates the progress bar and the status label.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void sendingBackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            sendStatusLabel.Text = (string)e.UserState;
+
+            if (e.ProgressPercentage < 0)
+            {
+                sendProgressBar.Style = ProgressBarStyle.Marquee;
+            }
+            else
+            {
+                sendProgressBar.Style = ProgressBarStyle.Continuous;
+                sendProgressBar.Value = e.ProgressPercentage;
+            }
+        }
+
+        /// <summary>
+        /// Hides the progress bar and status label and re-enables the send button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void sendingBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            sendButton.Enabled = true;
+            sendProgressBar.Visible = false;
+            sendStatusLabel.Visible = false;
+
+            MessageBox.Show(this, (string)e.Result);
         }
     }
 }
