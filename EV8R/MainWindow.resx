@@ -1593,7 +1593,7 @@
   <metadata name="folderBrowserDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>150, 17</value>
   </metadata>
-  <data name="openFilesButton.AwayImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="importFilesButton.AwayImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAASAAAAEgCAYAAAAUg66AAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
         EwAACxMBAJqcGAAAAAd0SU1FB+AEBBIlA84qdvYAAFb2SURBVHhe7d0JuKRVfe/73JMcr0k8xigiIioq
@@ -1970,7 +1970,7 @@
         E6DVWunaaKONNtpoo4022mijjTbaaKONNtpoYxcdP/ET/z+43KYpa2u9RwAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="openFilesButton.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="importFilesButton.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAASAAAAEgCAYAAAAUg66AAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
         EwAACxMBAJqcGAAAAAd0SU1FB+AEBBIlA84qdvYAAFb2SURBVHhe7d0JuKRVfe/73JMcr0k8xigiIioq
@@ -2347,7 +2347,7 @@
         E6DVWunaaKONNtpoo4022mijjTbaaKONNtpoYxcdP/ET/z+43KYpa2u9RwAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="openFilesButton.HoveringImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="importFilesButton.HoveringImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAASAAAAEgCAYAAAAUg66AAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
         EwAACxMBAJqcGAAAAAd0SU1FB+AEBBIqFMph7/4AAGKXSURBVHhe7b0JvCVXXe/ru4PP6/XxvPc6XQXB
@@ -2774,7 +2774,7 @@
         5jSnOc0pL33Xd/3/6HpT2mRXl5IAAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="openFilesButton.PressedImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="importFilesButton.PressedImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAASAAAAEgCAYAAAAUg66AAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
         EwAACxMBAJqcGAAAAAd0SU1FB+AEBBIsGeKKNMUAAGM1SURBVHhe7b15tC1Xfd/pzuAQhxASG0MMmMEM

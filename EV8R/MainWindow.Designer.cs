@@ -30,17 +30,17 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.sendFilesLabel = new System.Windows.Forms.Label();
-            this.openFilesLabel = new System.Windows.Forms.Label();
+            this.importFilesLabel = new System.Windows.Forms.Label();
             this.ev8rLogoPictureBox = new System.Windows.Forms.PictureBox();
             this.loginLinkLabel = new System.Windows.Forms.LinkLabel();
             this.aboutLinkLabel = new System.Windows.Forms.LinkLabel();
             this.welcomeMessageLabel = new System.Windows.Forms.Label();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-            this.openFilesButton = new EV8R.ImageButton();
+            this.importFilesButton = new EV8R.ImageButton();
             this.sendButton = new EV8R.ImageButton();
             ((System.ComponentModel.ISupportInitialize)(this.ev8rLogoPictureBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.openFilesButton)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.importFilesButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sendButton)).BeginInit();
             this.SuspendLayout();
             // 
@@ -56,17 +56,17 @@
             this.sendFilesLabel.Text = "Send Files";
             this.sendFilesLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // openFilesLabel
+            // importFilesLabel
             // 
-            this.openFilesLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.openFilesLabel.Font = new System.Drawing.Font("Consolas", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.openFilesLabel.ForeColor = System.Drawing.Color.DarkGray;
-            this.openFilesLabel.Location = new System.Drawing.Point(306, 505);
-            this.openFilesLabel.Name = "openFilesLabel";
-            this.openFilesLabel.Size = new System.Drawing.Size(288, 36);
-            this.openFilesLabel.TabIndex = 3;
-            this.openFilesLabel.Text = "Open Files";
-            this.openFilesLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.importFilesLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.importFilesLabel.Font = new System.Drawing.Font("Consolas", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.importFilesLabel.ForeColor = System.Drawing.Color.DarkGray;
+            this.importFilesLabel.Location = new System.Drawing.Point(306, 505);
+            this.importFilesLabel.Name = "importFilesLabel";
+            this.importFilesLabel.Size = new System.Drawing.Size(288, 36);
+            this.importFilesLabel.TabIndex = 3;
+            this.importFilesLabel.Text = "Import Files";
+            this.importFilesLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // ev8rLogoPictureBox
             // 
@@ -107,6 +107,7 @@
             this.aboutLinkLabel.TabStop = true;
             this.aboutLinkLabel.Text = "About";
             this.aboutLinkLabel.VisitedLinkColor = System.Drawing.SystemColors.MenuHighlight;
+            this.aboutLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.aboutLinkLabel_LinkClicked);
             // 
             // welcomeMessageLabel
             // 
@@ -126,20 +127,20 @@
             // 
             this.folderBrowserDialog.Description = "Select a folder to which the generated files should be saved.";
             // 
-            // openFilesButton
+            // importFilesButton
             // 
-            this.openFilesButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.openFilesButton.AwayImage = ((System.Drawing.Image)(resources.GetObject("openFilesButton.AwayImage")));
-            this.openFilesButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("openFilesButton.BackgroundImage")));
-            this.openFilesButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.openFilesButton.HoveringImage = ((System.Drawing.Image)(resources.GetObject("openFilesButton.HoveringImage")));
-            this.openFilesButton.Location = new System.Drawing.Point(306, 214);
-            this.openFilesButton.Name = "openFilesButton";
-            this.openFilesButton.PressedImage = ((System.Drawing.Image)(resources.GetObject("openFilesButton.PressedImage")));
-            this.openFilesButton.Size = new System.Drawing.Size(288, 288);
-            this.openFilesButton.TabIndex = 1;
-            this.openFilesButton.TabStop = false;
-            this.openFilesButton.Click += new System.EventHandler(this.openFilesButton_Click);
+            this.importFilesButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.importFilesButton.AwayImage = ((System.Drawing.Image)(resources.GetObject("importFilesButton.AwayImage")));
+            this.importFilesButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("importFilesButton.BackgroundImage")));
+            this.importFilesButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.importFilesButton.HoveringImage = ((System.Drawing.Image)(resources.GetObject("importFilesButton.HoveringImage")));
+            this.importFilesButton.Location = new System.Drawing.Point(306, 214);
+            this.importFilesButton.Name = "importFilesButton";
+            this.importFilesButton.PressedImage = ((System.Drawing.Image)(resources.GetObject("importFilesButton.PressedImage")));
+            this.importFilesButton.Size = new System.Drawing.Size(288, 288);
+            this.importFilesButton.TabIndex = 1;
+            this.importFilesButton.TabStop = false;
+            this.importFilesButton.Click += new System.EventHandler(this.openFilesButton_Click);
             // 
             // sendButton
             // 
@@ -166,9 +167,9 @@
             this.Controls.Add(this.aboutLinkLabel);
             this.Controls.Add(this.loginLinkLabel);
             this.Controls.Add(this.ev8rLogoPictureBox);
-            this.Controls.Add(this.openFilesLabel);
+            this.Controls.Add(this.importFilesLabel);
             this.Controls.Add(this.sendFilesLabel);
-            this.Controls.Add(this.openFilesButton);
+            this.Controls.Add(this.importFilesButton);
             this.Controls.Add(this.sendButton);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -179,7 +180,7 @@
             this.Text = "EV8R";
             this.Activated += new System.EventHandler(this.MainWindow_Activated);
             ((System.ComponentModel.ISupportInitialize)(this.ev8rLogoPictureBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.openFilesButton)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.importFilesButton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sendButton)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -189,9 +190,9 @@
         #endregion
 
         private ImageButton sendButton;
-        private ImageButton openFilesButton;
+        private ImageButton importFilesButton;
         private System.Windows.Forms.Label sendFilesLabel;
-        private System.Windows.Forms.Label openFilesLabel;
+        private System.Windows.Forms.Label importFilesLabel;
         private System.Windows.Forms.PictureBox ev8rLogoPictureBox;
         private System.Windows.Forms.LinkLabel loginLinkLabel;
         private System.Windows.Forms.LinkLabel aboutLinkLabel;

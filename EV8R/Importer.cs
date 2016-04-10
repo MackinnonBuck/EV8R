@@ -23,23 +23,18 @@ namespace EV8R
         }
 
         /// <summary>
-        /// Loads subfiles from the given array of file names.
+        /// Loads a subfile from the given file name.
         /// </summary>
-        /// <param name="fileNames"></param>
-        public void Load(string[] fileNames)
+        /// <param name="fileName"></param>
+        public void Load(string fileName)
         {
-            subFiles.Clear();
+            SubFile subFile = new SubFile();
+            subFile.LoadFromExisting(fileName);
 
-            foreach (string fileName in fileNames)
-            {
-                SubFile subFile = new SubFile();
-                subFile.LoadFromExisting(fileName);
+            if (!subFiles.ContainsKey(subFile.GUID))
+                subFiles[subFile.GUID] = new Dictionary<int, SubFile>();
 
-                if (!subFiles.ContainsKey(subFile.GUID))
-                    subFiles[subFile.GUID] = new Dictionary<int, SubFile>();
-
-                subFiles[subFile.GUID][subFile.SubFileIndex] = subFile;
-            }
+            subFiles[subFile.GUID][subFile.SubFileIndex] = subFile;
         }
 
         /// <summary>
@@ -83,6 +78,14 @@ namespace EV8R
             }
 
             return hasSucceeded;
+        }
+
+        /// <summary>
+        /// Clears the list of sub files.
+        /// </summary>
+        public void Clear()
+        {
+            subFiles.Clear();
         }
     }
 }

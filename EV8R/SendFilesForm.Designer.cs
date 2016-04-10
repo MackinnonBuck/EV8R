@@ -48,10 +48,10 @@
             this.fileSizeNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.filePropertiesGroupBox = new System.Windows.Forms.GroupBox();
             this.messageGroupBox = new System.Windows.Forms.GroupBox();
+            this.customMessageCheckBox = new System.Windows.Forms.CheckBox();
             this.sendProgressBar = new System.Windows.Forms.ProgressBar();
             this.sendStatusLabel = new System.Windows.Forms.Label();
             this.sendingBackgroundWorker = new System.ComponentModel.BackgroundWorker();
-            this.customMessageCheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.fileSizeNumericUpDown)).BeginInit();
             this.filePropertiesGroupBox.SuspendLayout();
             this.messageGroupBox.SuspendLayout();
@@ -282,6 +282,17 @@
             this.messageGroupBox.TabStop = false;
             this.messageGroupBox.Text = "Message";
             // 
+            // customMessageCheckBox
+            // 
+            this.customMessageCheckBox.AutoSize = true;
+            this.customMessageCheckBox.Location = new System.Drawing.Point(6, 61);
+            this.customMessageCheckBox.Name = "customMessageCheckBox";
+            this.customMessageCheckBox.Size = new System.Drawing.Size(133, 17);
+            this.customMessageCheckBox.TabIndex = 8;
+            this.customMessageCheckBox.Text = "Send custom message";
+            this.customMessageCheckBox.UseVisualStyleBackColor = true;
+            this.customMessageCheckBox.CheckedChanged += new System.EventHandler(this.customMessageCheckBox_CheckedChanged);
+            // 
             // sendProgressBar
             // 
             this.sendProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -308,20 +319,10 @@
             // sendingBackgroundWorker
             // 
             this.sendingBackgroundWorker.WorkerReportsProgress = true;
+            this.sendingBackgroundWorker.WorkerSupportsCancellation = true;
             this.sendingBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.sendingBackgroundWorker_DoWork);
             this.sendingBackgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.sendingBackgroundWorker_ProgressChanged);
             this.sendingBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.sendingBackgroundWorker_RunWorkerCompleted);
-            // 
-            // customMessageCheckBox
-            // 
-            this.customMessageCheckBox.AutoSize = true;
-            this.customMessageCheckBox.Location = new System.Drawing.Point(6, 61);
-            this.customMessageCheckBox.Name = "customMessageCheckBox";
-            this.customMessageCheckBox.Size = new System.Drawing.Size(133, 17);
-            this.customMessageCheckBox.TabIndex = 8;
-            this.customMessageCheckBox.Text = "Send custom message";
-            this.customMessageCheckBox.UseVisualStyleBackColor = true;
-            this.customMessageCheckBox.CheckedChanged += new System.EventHandler(this.customMessageCheckBox_CheckedChanged);
             // 
             // SendFilesForm
             // 

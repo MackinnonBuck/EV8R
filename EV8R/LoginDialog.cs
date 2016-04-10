@@ -36,7 +36,7 @@ namespace EV8R
         {
             get
             {
-                return serverList[serverComboBox.SelectedIndex].Item2;
+                return serverComboBox.SelectedIndex == -1 ? serverComboBox.Text : serverList[serverComboBox.SelectedIndex].Item2;
             }
         }
 

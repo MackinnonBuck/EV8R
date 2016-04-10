@@ -142,6 +142,15 @@ namespace EV8R
         /// <param name="e"></param>
         private void sendButton_Click(object sender, EventArgs e)
         {
+            if (sendingBackgroundWorker.IsBusy)
+            {
+                sendButton.Enabled = false;
+                sendingBackgroundWorker.CancelAsync();
+                sendStatusLabel.Text = "Canceling...";
+                sendProgressBar.Style = ProgressBarStyle.Marquee;
+                return;
+            }
+
             if (!Program.LoginDialog.IsFormComplete)
             {
                 MessageBox.Show(this, "You must complete login info to send files.", "Unable to send.");
@@ -174,6 +183,8 @@ namespace EV8R
             }
 
             sendingBackgroundWorker.RunWorkerAsync(message);
+            sendButton.Enabled = true;
+            sendButton.Text = "Cancel";
         }
 
         /// <summary>
@@ -201,14 +212,20 @@ namespace EV8R
             {
                 if (e.Argument != null)
                 {
+                    if (sendingBackgroundWorker.CancellationPending)
+                        return;
+
                     sendingBackgroundWorker.ReportProgress(-1, "Sending message...");
                     client.Send((MailMessage)e.Argument);
                 }
 
                 for (int i = 0; i < exporter.SubFiles.Count; i++)
                 {
+                    if (sendingBackgroundWorker.CancellationPending)
+                        return;
+
                     sendingBackgroundWorker.ReportProgress((int)((i + 1) / (float)exporter.SubFiles.Count * 100.0f),
-                        "Sending files " + (i + 1) + " of " + exporter.SubFiles.Count);
+                        "Sending files " + (i + 1) + " of " + exporter.SubFiles.Count + "...");
 
                     using (MailMessage message = new MailMessage(Program.LoginDialog.Email, toTextBox.Text))
                     {
@@ -259,10 +276,12 @@ namespace EV8R
         private void sendingBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             sendButton.Enabled = true;
+            sendButton.Text = "Send";
             sendProgressBar.Visible = false;
             sendStatusLabel.Visible = false;
 
-            MessageBox.Show(this, (string)e.Result);
+            if (e.Result != null)
+                MessageBox.Show(this, (string)e.Result);
         }
     }
 }
