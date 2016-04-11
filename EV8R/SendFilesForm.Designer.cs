@@ -339,6 +339,7 @@
             this.Name = "SendFilesForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Send Files";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SendFilesForm_FormClosing);
             this.Load += new System.EventHandler(this.SendFilesForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.fileSizeNumericUpDown)).EndInit();
             this.filePropertiesGroupBox.ResumeLayout(false);

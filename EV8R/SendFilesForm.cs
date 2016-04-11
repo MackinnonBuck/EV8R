@@ -52,18 +52,6 @@ namespace EV8R
         }
 
         /// <summary>
-        /// Used for updating the status label asynchronously.
-        /// </summary>
-        /// <param name="text"></param>
-        private void UpdateStatusLabel(string text)
-        {
-            Invoke(new Action(() =>
-            {
-                sendStatusLabel.Text = text;
-            }));
-        }
-
-        /// <summary>
         /// Sets the fromLabel's text.
         /// </summary>
         /// <param name="sender"></param>
@@ -71,6 +59,21 @@ namespace EV8R
         private void SendFilesForm_Load(object sender, EventArgs e)
         {
             UpdateFromLabel();
+        }
+
+        /// <summary>
+        /// Cancels the send process if running, then closes the form.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SendFilesForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (sendingBackgroundWorker.IsBusy)
+            {
+                MessageBox.Show(this, "A send operation is currently active.\nPlease cancel the operation to close the window.",
+                    "Operation in progress.");
+                e.Cancel = true;
+            }
         }
 
         /// <summary>
@@ -204,47 +207,47 @@ namespace EV8R
             string outputPath = localCopyCheckBox.Checked ? folderBrowserDialog.SelectedPath + '\\' : Path.GetTempPath();
             exporter.Write(outputPath);
 
-            SmtpClient client = new SmtpClient(Program.LoginDialog.Server, Program.LoginDialog.Port);
-            client.Credentials = new NetworkCredential(Program.LoginDialog.Email, Program.LoginDialog.Password);
-            client.EnableSsl = true;
-
-            try
+            using (SmtpClient client = new SmtpClient(Program.LoginDialog.Server, Program.LoginDialog.Port))
             {
-                if (e.Argument != null)
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                client.EnableSsl = true;
+                client.UseDefaultCredentials = false;
+                client.Credentials = new NetworkCredential(Program.LoginDialog.Email, Program.LoginDialog.Password);
+
+                try
                 {
-                    if (sendingBackgroundWorker.CancellationPending)
-                        return;
-
-                    sendingBackgroundWorker.ReportProgress(-1, "Sending message...");
-                    client.Send((MailMessage)e.Argument);
-                }
-
-                for (int i = 0; i < exporter.SubFiles.Count; i++)
-                {
-                    if (sendingBackgroundWorker.CancellationPending)
-                        return;
-
-                    sendingBackgroundWorker.ReportProgress((int)((i + 1) / (float)exporter.SubFiles.Count * 100.0f),
-                        "Sending files " + (i + 1) + " of " + exporter.SubFiles.Count + "...");
-
-                    using (MailMessage message = new MailMessage(Program.LoginDialog.Email, toTextBox.Text))
+                    if (e.Argument != null)
                     {
-                        message.Subject = "EV8R (Pt. " + (i + 1) + '/' + exporter.SubFiles.Count + ')';
-                        message.Attachments.Add(new Attachment(outputPath + exporter.SubFiles[i].FileName));
+                        if (sendingBackgroundWorker.CancellationPending)
+                            return;
 
-                        client.Send(message);
+                        sendingBackgroundWorker.ReportProgress(-1, "Sending message...");
+                        client.Send((MailMessage)e.Argument);
                     }
-                }
 
-                e.Result = "Files sent successfully!";
-            }
-            catch (SmtpException ex)
-            {
-                e.Result = ex.Message;
-            }
-            finally
-            {
-                client.Dispose();
+                    for (int i = 0; i < exporter.SubFiles.Count; i++)
+                    {
+                        if (sendingBackgroundWorker.CancellationPending)
+                            return;
+
+                        sendingBackgroundWorker.ReportProgress((int)((i + 1) / (float)exporter.SubFiles.Count * 100.0f),
+                            "Sending files " + (i + 1) + " of " + exporter.SubFiles.Count + "...");
+
+                        using (MailMessage message = new MailMessage(Program.LoginDialog.Email, toTextBox.Text))
+                        {
+                            message.Subject = "EV8R (Pt. " + (i + 1) + '/' + exporter.SubFiles.Count + ')';
+                            message.Attachments.Add(new Attachment(outputPath + exporter.SubFiles[i].FileName));
+
+                            client.Send(message);
+                        }
+                    }
+
+                    e.Result = "Files sent successfully!";
+                }
+                catch (SmtpException ex)
+                {
+                    e.Result = ex.Message;
+                }
             }
         }
 

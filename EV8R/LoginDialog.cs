@@ -79,7 +79,7 @@ namespace EV8R
         public LoginDialog()
         {
             serverList = new List<Tuple<string, string, int>>();
-            serverList.Add(new Tuple<string, string, int>("GMail", "smtp.gmail.com", 465));
+            serverList.Add(new Tuple<string, string, int>("GMail", "smtp.gmail.com", 587));
             serverList.Add(new Tuple<string, string, int>("Outlook", "smtp.live.com", 587));
             serverList.Add(new Tuple<string, string, int>("Office365", "smtp.office365.com", 587));
             serverList.Add(new Tuple<string, string, int>("Yahoo Mail", "smtp.mail.yahoo.com", 465));

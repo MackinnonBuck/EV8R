@@ -58,18 +58,19 @@ namespace EV8R
         {
             Guid guid = Guid.NewGuid();
 
-            BinaryReader reader = new BinaryReader(File.Open(fileName, FileMode.Open));
-            
-            for (int subFileID = 0; reader.BaseStream.Position != reader.BaseStream.Length; subFileID++)
+            using (BinaryReader reader = new BinaryReader(File.Open(fileName, FileMode.Open)))
             {
-                SubFile subFile = new SubFile(guid, fileName, subFileID, byteLimit);
-                subFile.LoadFromBase(reader);
-                SubFiles.Add(subFile);
+                for (int subFileID = 0; reader.BaseStream.Position != reader.BaseStream.Length; subFileID++)
+                {
+                    SubFile subFile = new SubFile(guid, fileName, subFileID, byteLimit);
+                    subFile.LoadFromBase(reader);
+                    SubFiles.Add(subFile);
+                }
+
+                SubFiles.Last().IsLast = true;
+
+                reader.Close();
             }
-
-            SubFiles.Last().IsLast = true;
-
-            reader.Close();
         }
 
         /// <summary>

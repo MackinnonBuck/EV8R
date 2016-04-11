@@ -64,7 +64,8 @@ namespace EV8R
         /// <param name="e"></param>
         private void sendButton_Click(object sender, EventArgs e)
         {
-            new SendFilesForm().ShowDialog();
+            using (SendFilesForm sendFilesForm = new SendFilesForm())
+                sendFilesForm.ShowDialog(this);
         }
 
         /// <summary>
@@ -77,16 +78,8 @@ namespace EV8R
             if (openFileDialog.ShowDialog(this) != DialogResult.OK || folderBrowserDialog.ShowDialog(this) != DialogResult.OK)
                 return;
 
-            new ImportFilesForm(openFileDialog.FileNames, folderBrowserDialog.SelectedPath).ShowDialog(this);
-
-            //Importer importer = new Importer();
-            //importer.Load(openFileDialog.FileNames);
-
-            //if (importer.Write(folderBrowserDialog.SelectedPath))
-            //    MessageBox.Show(this, "Files saved successfully!", "Success!");
-            //else
-            //    MessageBox.Show(this, "Some EV8R files were missing their counterparts.\nCertain files may not have been restored.",
-            //        "Could not save all files.");
+            using (ImportFilesForm importFilesForm = new ImportFilesForm(openFileDialog.FileNames, folderBrowserDialog.SelectedPath))
+                importFilesForm.ShowDialog(this);
         }
     }
 }
