@@ -40,9 +40,7 @@
             this.filesLabel = new System.Windows.Forms.Label();
             this.fileSelectButton = new System.Windows.Forms.Button();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.localCopyCheckBox = new System.Windows.Forms.CheckBox();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-            this.localCopyFolderLabel = new System.Windows.Forms.Label();
             this.sendButton = new System.Windows.Forms.Button();
             this.fileSizeLimitLabel = new System.Windows.Forms.Label();
             this.fileSizeNumericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -52,6 +50,8 @@
             this.sendProgressBar = new System.Windows.Forms.ProgressBar();
             this.sendStatusLabel = new System.Windows.Forms.Label();
             this.sendingBackgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.saveLocalButton = new System.Windows.Forms.Button();
+            this.includeExecutableCheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.fileSizeNumericUpDown)).BeginInit();
             this.filePropertiesGroupBox.SuspendLayout();
             this.messageGroupBox.SuspendLayout();
@@ -139,7 +139,7 @@
             this.messageTextBox.Enabled = false;
             this.messageTextBox.Location = new System.Drawing.Point(6, 123);
             this.messageTextBox.Name = "messageTextBox";
-            this.messageTextBox.Size = new System.Drawing.Size(332, 174);
+            this.messageTextBox.Size = new System.Drawing.Size(332, 168);
             this.messageTextBox.TabIndex = 7;
             this.messageTextBox.Text = "";
             // 
@@ -170,32 +170,9 @@
             // 
             this.openFileDialog.Multiselect = true;
             // 
-            // localCopyCheckBox
-            // 
-            this.localCopyCheckBox.AutoSize = true;
-            this.localCopyCheckBox.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            this.localCopyCheckBox.Location = new System.Drawing.Point(6, 75);
-            this.localCopyCheckBox.Name = "localCopyCheckBox";
-            this.localCopyCheckBox.Size = new System.Drawing.Size(116, 17);
-            this.localCopyCheckBox.TabIndex = 10;
-            this.localCopyCheckBox.Text = "Create local copies";
-            this.localCopyCheckBox.UseVisualStyleBackColor = true;
-            this.localCopyCheckBox.CheckedChanged += new System.EventHandler(this.localCopyCheckBox_CheckedChanged);
-            // 
             // folderBrowserDialog
             // 
             this.folderBrowserDialog.Description = "Browse for a folder to save local copies.";
-            // 
-            // localCopyFolderLabel
-            // 
-            this.localCopyFolderLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.localCopyFolderLabel.AutoEllipsis = true;
-            this.localCopyFolderLabel.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            this.localCopyFolderLabel.Location = new System.Drawing.Point(142, 75);
-            this.localCopyFolderLabel.Name = "localCopyFolderLabel";
-            this.localCopyFolderLabel.Size = new System.Drawing.Size(196, 17);
-            this.localCopyFolderLabel.TabIndex = 11;
             // 
             // sendButton
             // 
@@ -246,16 +223,16 @@
             // 
             this.filePropertiesGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.filePropertiesGroupBox.Controls.Add(this.includeExecutableCheckBox);
+            this.filePropertiesGroupBox.Controls.Add(this.saveLocalButton);
             this.filePropertiesGroupBox.Controls.Add(this.filesLabel);
             this.filePropertiesGroupBox.Controls.Add(this.fileSizeLimitLabel);
             this.filePropertiesGroupBox.Controls.Add(this.fileSizeNumericUpDown);
-            this.filePropertiesGroupBox.Controls.Add(this.localCopyFolderLabel);
-            this.filePropertiesGroupBox.Controls.Add(this.localCopyCheckBox);
             this.filePropertiesGroupBox.Controls.Add(this.fileSelectButton);
             this.filePropertiesGroupBox.ForeColor = System.Drawing.SystemColors.MenuHighlight;
             this.filePropertiesGroupBox.Location = new System.Drawing.Point(12, 12);
             this.filePropertiesGroupBox.Name = "filePropertiesGroupBox";
-            this.filePropertiesGroupBox.Size = new System.Drawing.Size(344, 98);
+            this.filePropertiesGroupBox.Size = new System.Drawing.Size(344, 104);
             this.filePropertiesGroupBox.TabIndex = 15;
             this.filePropertiesGroupBox.TabStop = false;
             this.filePropertiesGroupBox.Text = "File Properties";
@@ -275,9 +252,9 @@
             this.messageGroupBox.Controls.Add(this.messageLabel);
             this.messageGroupBox.Controls.Add(this.subjectLabel);
             this.messageGroupBox.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            this.messageGroupBox.Location = new System.Drawing.Point(12, 116);
+            this.messageGroupBox.Location = new System.Drawing.Point(12, 122);
             this.messageGroupBox.Name = "messageGroupBox";
-            this.messageGroupBox.Size = new System.Drawing.Size(344, 303);
+            this.messageGroupBox.Size = new System.Drawing.Size(344, 297);
             this.messageGroupBox.TabIndex = 16;
             this.messageGroupBox.TabStop = false;
             this.messageGroupBox.Text = "Message";
@@ -324,6 +301,28 @@
             this.sendingBackgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.sendingBackgroundWorker_ProgressChanged);
             this.sendingBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.sendingBackgroundWorker_RunWorkerCompleted);
             // 
+            // saveLocalButton
+            // 
+            this.saveLocalButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.saveLocalButton.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.saveLocalButton.Location = new System.Drawing.Point(228, 75);
+            this.saveLocalButton.Name = "saveLocalButton";
+            this.saveLocalButton.Size = new System.Drawing.Size(110, 23);
+            this.saveLocalButton.TabIndex = 15;
+            this.saveLocalButton.Text = "Save Local Copies";
+            this.saveLocalButton.UseVisualStyleBackColor = true;
+            this.saveLocalButton.Click += new System.EventHandler(this.saveLocalButton_Click);
+            // 
+            // includeExecutableCheckBox
+            // 
+            this.includeExecutableCheckBox.AutoSize = true;
+            this.includeExecutableCheckBox.Location = new System.Drawing.Point(6, 79);
+            this.includeExecutableCheckBox.Name = "includeExecutableCheckBox";
+            this.includeExecutableCheckBox.Size = new System.Drawing.Size(165, 17);
+            this.includeExecutableCheckBox.TabIndex = 16;
+            this.includeExecutableCheckBox.Text = "Include extraction executable";
+            this.includeExecutableCheckBox.UseVisualStyleBackColor = true;
+            // 
             // SendFilesForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -364,9 +363,7 @@
         private System.Windows.Forms.Label filesLabel;
         private System.Windows.Forms.Button fileSelectButton;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
-        private System.Windows.Forms.CheckBox localCopyCheckBox;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
-        private System.Windows.Forms.Label localCopyFolderLabel;
         private System.Windows.Forms.Button sendButton;
         private System.Windows.Forms.Label fileSizeLimitLabel;
         private System.Windows.Forms.NumericUpDown fileSizeNumericUpDown;
@@ -376,5 +373,7 @@
         private System.Windows.Forms.Label sendStatusLabel;
         private System.ComponentModel.BackgroundWorker sendingBackgroundWorker;
         private System.Windows.Forms.CheckBox customMessageCheckBox;
+        private System.Windows.Forms.Button saveLocalButton;
+        private System.Windows.Forms.CheckBox includeExecutableCheckBox;
     }
 }

@@ -52,6 +52,22 @@ namespace EV8R
         }
 
         /// <summary>
+        /// Exports the selected file to the given file path.
+        /// </summary>
+        /// <param name="outputPath"></param>
+        private Exporter Export(string outputPath)
+        {
+            Exporter exporter = new Exporter((int)fileSizeNumericUpDown.Value);
+
+            foreach (string fileName in openFileDialog.FileNames)
+                exporter.Load(fileName);
+
+            exporter.Write(outputPath);
+
+            return exporter;
+        }
+
+        /// <summary>
         /// Sets the fromLabel's text.
         /// </summary>
         /// <param name="sender"></param>
@@ -109,23 +125,27 @@ namespace EV8R
         }
 
         /// <summary>
-        /// Opens the folder browser dialog to allow the user to select the path to which copies are saved.
+        /// Exports and saves a local copy of the selected file.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void localCopyCheckBox_CheckedChanged(object sender, EventArgs e)
+        private void saveLocalButton_Click(object sender, EventArgs e)
         {
-            if (localCopyCheckBox.Checked)
+            if (openFileDialog.FileNames.Length == 0)
             {
-                if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
-                    localCopyFolderLabel.Text = folderBrowserDialog.SelectedPath;
-                else
-                    localCopyCheckBox.Checked = false;
+                MessageBox.Show(this, "You have not selected any files to save.", "Unable to save.");
+                return;
             }
-            else
-            {
-                localCopyFolderLabel.Text = string.Empty;
-            }
+
+            if (folderBrowserDialog.ShowDialog() != DialogResult.OK)
+                return;
+
+            Export(folderBrowserDialog.SelectedPath + '\\');
+
+            if (includeExecutableCheckBox.Checked)
+                File.WriteAllBytes(folderBrowserDialog.SelectedPath + "\\runme.exe", Properties.Resources.runme);
+
+            MessageBox.Show(this, "Files saved successfully!", "Success!");
         }
 
         /// <summary>
@@ -199,13 +219,8 @@ namespace EV8R
         {
             sendingBackgroundWorker.ReportProgress(-1, "Exporting files...");
 
-            Exporter exporter = new Exporter((int)fileSizeNumericUpDown.Value);
-
-            foreach (string fileName in openFileDialog.FileNames)
-                exporter.Load(fileName);
-
-            string outputPath = localCopyCheckBox.Checked ? folderBrowserDialog.SelectedPath + '\\' : Path.GetTempPath();
-            exporter.Write(outputPath);
+            string outputPath = Path.GetTempPath();
+            Exporter exporter = Export(outputPath);
 
             using (SmtpClient client = new SmtpClient(Program.LoginDialog.Server, Program.LoginDialog.Port))
             {
@@ -237,6 +252,23 @@ namespace EV8R
                         {
                             message.Subject = "EV8R (Pt. " + (i + 1) + '/' + exporter.SubFiles.Count + ')';
                             message.Attachments.Add(new Attachment(outputPath + exporter.SubFiles[i].FileName));
+
+                            client.Send(message);
+                        }
+                    }
+
+                    if (includeExecutableCheckBox.Checked)
+                    {
+                        sendingBackgroundWorker.ReportProgress(-1, "Sending extraction executable...");
+
+                        string runmePath = outputPath + "runme.exe";
+                        File.WriteAllBytes(runmePath, Properties.Resources.runme);
+
+                        using (MailMessage message = new MailMessage(Program.LoginDialog.Email, toTextBox.Text))
+                        {
+                            message.Subject = "Extract preceding EV8R files.";
+                            message.Body = "To extract the preceding EV8R files, run this attachment in the same folder as the EV8R files.";
+                            message.Attachments.Add(new Attachment(runmePath));
 
                             client.Send(message);
                         }

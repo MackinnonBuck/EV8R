@@ -107,6 +107,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="SendFilesForm.resx">
       <DependentUpon>SendFilesForm.cs</DependentUpon>
@@ -126,6 +127,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ev8r_logo.ico" />
+    <None Include="Resources\runme.exe" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

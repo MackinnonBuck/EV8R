@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="{D4B48E4A-B729-491D-BAAA-ABAF45906B95}" Name="EV8R" Language="1033" Version="1.0.0.0" Manufacturer="MackinnonBuck" UpgradeCode="{1ACBB0B0-B8C1-424A-807B-ACFA2FF3CBC2}">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of EV8R is already installed." />
+		<MediaTemplate EmbedCab="yes"/>
+
+		<Feature Id="ProductFeature" Title="EV8R" Level="1">
+			<ComponentRef Id="EV8R.exe" />
+      <ComponentRef Id="ApplicationShortcut" />
+		</Feature>
+	</Product>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="INSTALLFOLDER" Name="EV8R" />
+			</Directory>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="EV8R" />
+      </Directory>
+		</Directory>
+	</Fragment>
+  
+  <Fragment>
+    <DirectoryRef Id="INSTALLFOLDER">
+      <Component Id="EV8R.exe" Guid="{221C9B27-152D-48D2-BFFC-15826A9F1DFA}">
+        <File Id="EV8R.exe" Source="$(var.EV8R.TargetPath)" KeyPath="yes" Checksum="yes" />
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+  
+  <Fragment>
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="ApplicationShortcut" Guid="{482F1813-CCAA-4B3E-B7E3-1D6A08C60050}">
+        <Shortcut Id="ApplicationStartMenuShortcut" Name="EV8R" Target="[#EV8R.exe]" WorkingDirectory="INSTALLFOLDER"/>
+        <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\Microsoft\EV8R" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+</Wix>
